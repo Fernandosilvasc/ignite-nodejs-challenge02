@@ -20,19 +20,19 @@ function checksExistsUserAccount(request, response, next) {
   }
 
   request.user = user;
-  next();
+  return next();
 }
 
 function checksCreateTodosUserAvailability(request, response, next) {
   // Complete aqui
   const { user } = request;
-  if (user.pro === false && user.todos.length >= 10) {
+  if (!user.pro && user.todos.length >= 10) {
     return response.status(403).json({
       error: "You exceed the maximum number of todos available for free plan",
     });
-  } else {
-    next();
   }
+
+  return next();
 }
 
 function checksTodoExists(request, response, next) {
