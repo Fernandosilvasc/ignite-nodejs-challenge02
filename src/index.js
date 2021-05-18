@@ -45,11 +45,17 @@ function checksTodoExists(request, response, next) {
   const todo = user && user.todos.find((todo) => todo.id === id);
 
   if (!validateID) {
-    return response.status(400);
+    return response
+      .status(400)
+      .json({ error: "The Id is not match the uuid pattern" });
   }
 
-  if (!user || !todo) {
-    return response.status(404);
+  if (!user) {
+    return response.status(404).json({ error: "User is not found" });
+  }
+
+  if (!todo) {
+    return response.status(404).json({ error: "Todo is not found" });
   }
 
   request.user = user;
@@ -64,7 +70,7 @@ function findUserById(request, response, next) {
   const user = users.find((user) => user.id === id);
 
   if (!user) {
-    return response.status(404);
+    return response.status(404).json({ error: "User is not found" });
   }
 
   request.user = user;
